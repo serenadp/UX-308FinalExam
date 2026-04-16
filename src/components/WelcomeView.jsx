@@ -5,7 +5,7 @@ import InputBar from "./InputBar"
 export default function({scrollToBottom, sendMessage, setInputBarText, inputBarText}){
     return(
         <>
-        <Text>Stuff here</Text>
+        <Text>Hello| Input|</Text>
                 <InputBar 
                   onSendPressed={sendMessage} 
                   onSizeChange={() => scrollToBottom(false)}

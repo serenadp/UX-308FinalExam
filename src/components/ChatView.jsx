@@ -1,31 +1,131 @@
-import { StyleSheet, View, ScrollView, KeyboardAvoidingView, Keyboard, Platform } from 'react-native';
-import MessageBubble from './MessageBubble';
-import InputBar from './InputBar';
+import React from "react";
+import MessageBubble from "./MessageBubble";
 
+export default function ChatView({
+  sendMessage,
+  messages,
+  setInputBarText,
+  inputBarText
+}) {
+  const handleSend = (text) => {
+    if (!text) return;
+    sendMessage(text);
+  };
 
-export default function({scrollToBottom, scrollViewRef, sendMessage, styles, messages, setInputBarText, inputBarText}){
-    return(
-        <>
-        <ScrollView 
-          ref={scrollViewRef} 
-          style={styles.messages}
-          onContentSizeChange={() => scrollToBottom()} // Auto-scrolls when new content arrives
-        >
-          {messages.map((msg, index) => (
-            <MessageBubble 
-              key={index} 
-              direction={msg.direction} 
-              text={msg.text} 
-            />
-          ))}
-        </ScrollView>
+  return (
+    <div style={aiStyles.page}>
+      
+      {/* Title */}
+      <h1 style={aiStyles.title}>
+        Hi Serena, what's on your mind?
+      </h1>
 
-        <InputBar 
-          onSendPressed={sendMessage} 
-          onSizeChange={() => scrollToBottom(false)}
-          onChangeText={setInputBarText}
-          text={inputBarText}
+      {/* Input */}
+      <div style={aiStyles.inputWrapper}>
+        <span style={aiStyles.plus}>+</span>
+
+        <input
+          style={aiStyles.input}
+          placeholder="Ask anything"
+          value={inputBarText}
+          onChange={(e) => setInputBarText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSend(inputBarText);
+          }}
         />
-    </>
-    );
+
+        <span style={aiStyles.mic}>🎤</span>
+      </div>
+
+      {/* Suggestions (hide after typing) */}
+      {messages.length === 0 && (
+        <div style={aiStyles.suggestions}>
+          <div onClick={() => handleSend("burrito")}>
+            ✨ Order a burrito
+          </div>
+          <div onClick={() => handleSend("chicken tacos")}>
+            ✨ Get tacos
+          </div>
+          <div onClick={() => handleSend("recommend")}>
+            ✨ What do you recommend?
+          </div>
+        </div>
+      )}
+
+      {/* Messages appear UNDER input (like Google AI) */}
+      <div style={aiStyles.messages}>
+        {messages.map((msg, index) => (
+          <MessageBubble
+            key={index}
+            direction={msg.direction}
+            text={msg.text}
+          />
+        ))}
+      </div>
+
+    </div>
+  );
 }
+
+const aiStyles = {
+  page: {
+    background: "#f8f9fa",
+    minHeight: "100vh",
+    textAlign: "center",
+    paddingTop: "120px",
+    fontFamily: "Arial"
+  },
+
+  title: {
+    fontSize: "36px",
+    fontWeight: "500",
+    marginBottom: "30px"
+  },
+
+  inputWrapper: {
+    width: "650px",
+    margin: "0 auto",
+    background: "#e8eaed",
+    borderRadius: "30px",
+    padding: "15px 20px",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px"
+  },
+
+  input: {
+    flex: 1,
+    border: "none",
+    outline: "none",
+    background: "transparent",
+    fontSize: "18px"
+  },
+
+  plus: {
+    fontSize: "22px",
+    cursor: "pointer"
+  },
+
+  mic: {
+    fontSize: "18px",
+    cursor: "pointer"
+  },
+
+  suggestions: {
+    marginTop: "25px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+    alignItems: "center"
+  },
+
+  messages: {
+    marginTop: "30px",
+    width: "650px",
+    marginLeft: "auto",
+    marginRight: "auto",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px"
+  }
+};
