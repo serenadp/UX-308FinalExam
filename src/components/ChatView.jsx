@@ -1,5 +1,6 @@
 import React from "react";
 import MessageBubble from "./MessageBubble";
+import nailsImg from "../Assets/nails.jpg";
 
 export default function ChatView({
   sendMessage,
@@ -7,6 +8,7 @@ export default function ChatView({
   setInputBarText,
   inputBarText
 }) {
+
   const handleSend = (text) => {
     if (!text) return;
     sendMessage(text);
@@ -14,7 +16,10 @@ export default function ChatView({
 
   return (
     <div style={aiStyles.page}>
-      
+
+      {/* TOP IMAGE */}
+      <img src={nailsImg} style={aiStyles.banner} alt="nails" />
+
       {/* Title */}
       <h1 style={aiStyles.title}>
         Hi Serena, what's on your mind?
@@ -37,14 +42,14 @@ export default function ChatView({
         <span style={aiStyles.mic}>🎤</span>
       </div>
 
-      {/* Suggestions (hide after typing) */}
+      {/* Suggestions */}
       {messages.length === 0 && (
         <div style={aiStyles.suggestions}>
-          <div onClick={() => handleSend("burrito")}>
-            ✨ Order a burrito
+          <div onClick={() => handleSend("manicure")}>
+            ✨ Manicure
           </div>
-          <div onClick={() => handleSend("chicken tacos")}>
-            ✨ Get tacos
+          <div onClick={() => handleSend("pedicure")}>
+            ✨ Pedicure
           </div>
           <div onClick={() => handleSend("recommend")}>
             ✨ What do you recommend?
@@ -52,7 +57,7 @@ export default function ChatView({
         </div>
       )}
 
-      {/* Messages appear UNDER input (like Google AI) */}
+      {/* Messages */}
       <div style={aiStyles.messages}>
         {messages.map((msg, index) => (
           <MessageBubble
@@ -72,8 +77,15 @@ const aiStyles = {
     background: "#f8f9fa",
     minHeight: "100vh",
     textAlign: "center",
-    paddingTop: "120px",
     fontFamily: "Arial"
+  },
+
+  banner: {
+    width: "100%",
+    height: "220px",
+    objectFit: "cover",
+    borderRadius: "0 0 20px 20px",
+    marginBottom: "20px"
   },
 
   title: {

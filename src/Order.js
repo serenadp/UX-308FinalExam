@@ -10,68 +10,61 @@ export function clearInput() {
 
 function welcoming() {
   let aReturn = [];
-  currentState = choosingItem;
+  currentState = choosingService;
 
-  aReturn.push("Welcome to Señor Salsa!");
-  aReturn.push("Would you like tacos or burritos?");
+  aReturn.push("Welcome to Glow Nail Salon");
+  aReturn.push("Would you like a manicure, pedicure, acrylic, or gel?");
   return aReturn;
 }
 
-function choosingItem(sInput) {
+function choosingService(sInput) {
   let aReturn = [];
   sInput = sInput.toLowerCase();
 
   if (sInput.startsWith("n")) {
     currentState = welcoming;
-    aReturn.push("No problem! Come back anytime.");
+    aReturn.push("No problem! See you next time");
     return aReturn;
   }
 
-  currentState = choosingSize;
+  currentState = choosingTime;
 
-  if (sInput.includes("taco") || sInput.startsWith("y")) {
-    aReturn.push("Please choose size taco (small or large)");
-  } 
-  else if (sInput.includes("burrito")) {
-    aReturn.push("Please choose size burrito (small or large)");
-  } 
-  else {
-    aReturn.push("Please choose tacos or burritos.");
+  if (
+    sInput.includes("manicure") ||
+    sInput.includes("pedicure") ||
+    sInput.includes("acrylic") ||
+    sInput.includes("gel")
+  ) {
+    aReturn.push("What time would you like? (10, 12, 2, 4)");
+  } else {
+    currentState = choosingService;
+    aReturn.push("Please choose manicure, pedicure, acrylic, or gel.");
   }
 
   return aReturn;
 }
 
-function choosingSize(sInput) {
+function choosingTime(sInput) {
   let aReturn = [];
-  currentState = choosingFilling;
+  currentState = upsellAddon;
 
-  aReturn.push("What filling would you like? (chicken, beef, veggie, steak)");
+  aReturn.push("Would you like nail art or French tips?");
   return aReturn;
 }
 
-function choosingFilling(sInput) {
-  let aReturn = [];
-  currentState = upsellDrink;
-
-  aReturn.push("Would you like a drink? (coke, sprite)");
-  return aReturn;
-}
-
-function upsellDrink(sInput) {
+function upsellAddon(sInput) {
   let aReturn = [];
   sInput = sInput.toLowerCase();
 
   currentState = welcoming;
 
-  if (sInput.startsWith("y") || sInput.includes("coke") || sInput.includes("sprite")) {
-    aReturn.push("Drink added.");
-  } 
-  else {
-    aReturn.push("No drink added.");
+  if (sInput.includes("nail art") || sInput.includes("french")) {
+    aReturn.push("Add-on added");
+  } else {
+    aReturn.push("No add-ons.");
   }
 
-  aReturn.push("Order confirmed! Please pick up your food in 20 minutes.");
+  aReturn.push("Your appointment is booked! See you soon!");
 
   return aReturn;
 }
